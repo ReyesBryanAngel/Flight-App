@@ -14,13 +14,13 @@ const AirlineSelection = ({
   trip,
   from,
   setFrom,
-  fromLocations,
+  departureAirlines,
   fromLoading,
   setFromQuery,
   handleSwap,
   to,
   setTo,
-  toLocations,
+  destinationAirlines,
   toLoading,
   setToQuery,
   departureDate,
@@ -38,7 +38,7 @@ const AirlineSelection = ({
         <Autocomplete
           value={from}
           onChange={(event, newValue) => setFrom(newValue)}
-          options={fromLocations}
+          options={departureAirlines}
           filterOptions={(x) => x}
           loading={fromLoading}
           noOptionsText={fromLoading ? "Loading..." : "Search Airports"}
@@ -75,7 +75,7 @@ const AirlineSelection = ({
         <Autocomplete
           value={to}
           onChange={(event, newValue) => setTo(newValue)}
-          options={toLocations}
+          options={destinationAirlines}
           filterOptions={(x) => x}
           loading={toLoading}
           noOptionsText={toLoading ? "Loading..." : "Search Airports"}
@@ -134,13 +134,13 @@ AirlineSelection.propTypes = {
   trip: PropTypes.string.isRequired,
   from: PropTypes.string.isRequired,
   setFrom: PropTypes.func.isRequired,
-  fromLocations: PropTypes.array.isRequired,
+  departureAirlines: PropTypes.array.isRequired,
   fromLoading: PropTypes.bool.isRequired,
   setFromQuery: PropTypes.func.isRequired,
   handleSwap: PropTypes.func.isRequired,
   to: PropTypes.string.isRequired,
   setTo: PropTypes.func.isRequired,
-  toLocations: PropTypes.array.isRequired,
+  destinationAirlines: PropTypes.array.isRequired,
   toLoading: PropTypes.bool.isRequired,
   setToQuery: PropTypes.func.isRequired,
   departureDate: PropTypes.object,

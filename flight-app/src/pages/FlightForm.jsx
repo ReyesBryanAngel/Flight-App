@@ -29,8 +29,8 @@ import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 const FlightForm = () => {
   const [fromQuery, setFromQuery] = useState("");
   const [toQuery, setToQuery] = useState("");
-  const [fromLocations, setFromLocations] = useState([]);
-  const [toLocations, setToLocations] = useState([]);
+  const [departureAirlines, setDepartureAirlines] = useState([]);
+  const [destinationAirlines, setDestinationAirlines] = useState([]);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [departureDate, setDepartureDate] = useState(null);
@@ -81,17 +81,17 @@ const FlightForm = () => {
     setPage(newPage);
   };
 
-  const fetchLocationsFrom = useCallback(
+  const departure = useCallback(
     debounce(async (value) => {
       if (!value.trim()) return;
 
       setFromLoading(true);
       try {
-        const responseFrom = await searchAirPort(value);
-        const originSkyId = responseFrom?.data?.data
+        const departureResponse = await searchAirPort(value);
+        const originSkyId = departureResponse?.data?.data
           ?.map((arr) => arr.skyId)
           .shift();
-        const originEntityId = responseFrom?.data?.data
+        const originEntityId = departureResponse?.data?.data
           ?.map((arr) => arr.entityId)
           .shift();
         setFlights((prevState) => ({
@@ -99,11 +99,11 @@ const FlightForm = () => {
           originSkyId: originSkyId,
           originEntityId: originEntityId,
         }));
-        const data = responseFrom?.data?.data?.map(
+        const data = departureResponse?.data?.data?.map(
           (arr) => arr.navigation?.localizedName
         );
 
-        setFromLocations(data || []);
+        setDepartureAirlines(data || []);
       } catch (error) {
         console.error("Error fetching airports:", error);
       } finally {
@@ -113,20 +113,20 @@ const FlightForm = () => {
     []
   );
 
-  const fetchLocationsTo = useCallback(
+  const destination = useCallback(
     debounce(async (value) => {
       if (!value.trim()) return;
 
       setToLoading(true);
       try {
-        const responseTo = await searchAirPort(value);
-        const data = responseTo?.data?.data?.map(
+        const destinationResponse = await searchAirPort(value);
+        const data = destinationResponse?.data?.data?.map(
           (arr) => arr.navigation?.localizedName
         );
-        const destinationSkyId = responseTo?.data?.data
+        const destinationSkyId = destinationResponse?.data?.data
           ?.map((arr) => arr.skyId)
           .shift();
-        const destinationEntityId = responseTo?.data?.data
+        const destinationEntityId = destinationResponse?.data?.data
           ?.map((arr) => arr.entityId)
           .shift();
         setFlights((prevState) => ({
@@ -135,7 +135,7 @@ const FlightForm = () => {
           destinationEntityId: destinationEntityId,
         }));
 
-        setToLocations(data || []);
+        setDestinationAirlines(data || []);
       } catch (error) {
         console.error("Error fetching airports:", error);
       } finally {
@@ -145,6 +145,7 @@ const FlightForm = () => {
     []
   );
 
+  //searchFlight
   const searchFlight = async () => {
     setSearchFlightLoading(true);
     try {
@@ -217,8 +218,8 @@ const FlightForm = () => {
       JSON.parse(secureLocalStorage.getItem("flightsData")) || [];
 
     setQuantity(adultCount + childrenCount + infantCount);
-    if (fromQuery.trim()) fetchLocationsFrom(fromQuery);
-    if (toQuery.trim()) fetchLocationsTo(toQuery);
+    if (fromQuery.trim()) departure(fromQuery);
+    if (toQuery.trim()) destination(toQuery);
     setFlights((prevState) => ({
       ...prevState,
       cabin: !cabin?.value ? cabin : cabin?.value,
@@ -241,8 +242,8 @@ const FlightForm = () => {
     trips,
     fromQuery,
     toQuery,
-    fetchLocationsFrom,
-    fetchLocationsTo,
+    departure,
+    destination,
   ]);
 
   const increaseCount = (setter) => setter((prev) => prev + 1);
@@ -359,13 +360,13 @@ const FlightForm = () => {
           trip={trip}
           from={from}
           setFrom={setFrom}
-          fromLocations={fromLocations}
+          departureAirlines={departureAirlines}
           fromLoading={fromLoading}
           setFromQuery={setFromQuery}
           handleSwap={handleSwap}
           to={to}
           setTo={setTo}
-          toLocations={toLocations}
+          destinationAirlines={destinationAirlines}
           toLoading={toLoading}
           setToQuery={setToQuery}
           departureDate={departureDate}
