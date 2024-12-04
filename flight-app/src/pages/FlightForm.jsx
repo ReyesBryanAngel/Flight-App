@@ -6,6 +6,7 @@ import {
   Autocomplete,
   InputAdornment,
   CircularProgress,
+  Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import debounce from "lodash.debounce";
@@ -23,6 +24,7 @@ import secureLocalStorage from "react-secure-storage";
 import AirlinesList from "../components/AirlinesList";
 import AirlineSelection from "../components/AirlineSelection";
 import PassengerNumber from "../components/PassengerNumber";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 
 const FlightForm = () => {
   const [fromQuery, setFromQuery] = useState("");
@@ -257,7 +259,13 @@ const FlightForm = () => {
   const handleMenuClose = () => setMenuAnchor(null);
 
   return (
-    <Box className="p-4 border lg:w-3/4">
+    <Box className="p-4 lg:w-3/4 flex flex-col gap-2">
+      <div className="flex gap-2">
+        <Typography variant="h4" color="primary">
+          Flights
+        </Typography>
+        <FlightTakeoffIcon color="primary" />
+      </div>
       <div className="flex flex-col gap-6 border p-6 bg-gray-100 rounded-md border">
         {snackBar && (
           <Snackbar
@@ -276,7 +284,6 @@ const FlightForm = () => {
             </MuiAlert>
           </Snackbar>
         )}
-
         <div className="flex flex-wrap lg:flex-nowrap gap-4 justify-between">
           <Button
             startIcon={<PersonIcon />}
