@@ -16,13 +16,13 @@ const AirlineSelection = ({
   setFrom,
   departureAirlines,
   fromLoading,
-  setFromQuery,
+  setDepartureQuery,
   handleSwap,
   to,
   setTo,
   destinationAirlines,
   toLoading,
-  setToQuery,
+  setDestinationQuery,
   departureDate,
   setDepartureDate,
   returnDate,
@@ -42,7 +42,9 @@ const AirlineSelection = ({
           filterOptions={(x) => x}
           loading={fromLoading}
           noOptionsText={fromLoading ? "Loading..." : "Search Airports"}
-          onInputChange={(event, newInputValue) => setFromQuery(newInputValue)}
+          onInputChange={(event, newInputValue) =>
+            setDepartureQuery(newInputValue)
+          }
           renderInput={(params) => (
             <TextField
               {...params}
@@ -79,7 +81,9 @@ const AirlineSelection = ({
           filterOptions={(x) => x}
           loading={toLoading}
           noOptionsText={toLoading ? "Loading..." : "Search Airports"}
-          onInputChange={(event, newInputValue) => setToQuery(newInputValue)}
+          onInputChange={(event, newInputValue) =>
+            setDestinationQuery(newInputValue)
+          }
           renderInput={(params) => (
             <TextField
               {...params}
@@ -136,13 +140,13 @@ AirlineSelection.propTypes = {
   setFrom: PropTypes.func.isRequired,
   departureAirlines: PropTypes.array.isRequired,
   fromLoading: PropTypes.bool.isRequired,
-  setFromQuery: PropTypes.func.isRequired,
+  setDepartureQuery: PropTypes.func.isRequired,
   handleSwap: PropTypes.func.isRequired,
   to: PropTypes.string.isRequired,
   setTo: PropTypes.func.isRequired,
   destinationAirlines: PropTypes.array.isRequired,
   toLoading: PropTypes.bool.isRequired,
-  setToQuery: PropTypes.func.isRequired,
+  setDestinationQuery: PropTypes.func.isRequired,
   departureDate: PropTypes.object,
   setDepartureDate: PropTypes.func,
   returnDate: PropTypes.object,

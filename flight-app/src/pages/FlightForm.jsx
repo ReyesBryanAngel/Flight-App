@@ -27,8 +27,8 @@ import PassengerNumber from "../components/PassengerNumber";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 
 const FlightForm = () => {
-  const [fromQuery, setFromQuery] = useState("");
-  const [toQuery, setToQuery] = useState("");
+  const [departureQuery, setDepartureQuery] = useState("");
+  const [destinationQuery, setDestinationQuery] = useState("");
   const [departureAirlines, setDepartureAirlines] = useState([]);
   const [destinationAirlines, setDestinationAirlines] = useState([]);
   const [from, setFrom] = useState("");
@@ -88,17 +88,21 @@ const FlightForm = () => {
       setFromLoading(true);
       try {
         const departureResponse = await searchAirPort(value);
+
         const originSkyId = departureResponse?.data?.data
           ?.map((arr) => arr.skyId)
           .shift();
+
         const originEntityId = departureResponse?.data?.data
           ?.map((arr) => arr.entityId)
           .shift();
+
         setFlights((prevState) => ({
           ...prevState,
           originSkyId: originSkyId,
           originEntityId: originEntityId,
         }));
+
         const data = departureResponse?.data?.data?.map(
           (arr) => arr.navigation?.localizedName
         );
@@ -218,8 +222,8 @@ const FlightForm = () => {
       JSON.parse(secureLocalStorage.getItem("flightsData")) || [];
 
     setQuantity(adultCount + childrenCount + infantCount);
-    if (fromQuery.trim()) departure(fromQuery);
-    if (toQuery.trim()) destination(toQuery);
+    if (departureQuery.trim()) departure(departureQuery);
+    if (destinationQuery.trim()) destination(destinationQuery);
     setFlights((prevState) => ({
       ...prevState,
       cabin: !cabin?.value ? cabin : cabin?.value,
@@ -240,8 +244,8 @@ const FlightForm = () => {
     childrenCount,
     infantCount,
     trips,
-    fromQuery,
-    toQuery,
+    departureQuery,
+    destinationQuery,
     departure,
     destination,
   ]);
@@ -362,13 +366,13 @@ const FlightForm = () => {
           setFrom={setFrom}
           departureAirlines={departureAirlines}
           fromLoading={fromLoading}
-          setFromQuery={setFromQuery}
+          setDepartureQuery={setDepartureQuery}
           handleSwap={handleSwap}
           to={to}
           setTo={setTo}
           destinationAirlines={destinationAirlines}
           toLoading={toLoading}
-          setToQuery={setToQuery}
+          setDestinationQuery={setDestinationQuery}
           departureDate={departureDate}
           setDepartureDate={setDepartureDate}
           returnDate={returnDate}
